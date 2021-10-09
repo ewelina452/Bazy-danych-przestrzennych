@@ -1,4 +1,5 @@
-create database firma3;
+create database firma;
+
 
 create schema ksiegowosc;
 
@@ -11,11 +12,6 @@ create table ksiegowosc.wynagrodzenie (ID_wynagrodzenia INTEGER PRIMARY KEY, dat
 
 drop table ksiegowosc.pracownicy 
 
-ALTER TABLE ksiegowosc.godziny ADD FOREIGN KEY (ID_pracownika) REFERENCES ksiegowosc.pracownicy(ID_pracownika);
-ALTER TABLE ksiegowosc.wynagrodzenie ADD FOREIGN KEY (ID_pracownika) REFERENCES ksiegowosc.pracownicy (ID_pracownika);
-ALTER TABLE ksiegowosc.wynagrodzenie ADD FOREIGN KEY (ID_godziny) REFERENCES ksiegowosc.godziny (ID_godziny);
-ALTER TABLE ksiegowosc.wynagrodzenie ADD FOREIGN KEY (ID_pensji) REFERENCES ksiegowosc.pensje(ID_pensji);
-ALTER TABLE ksiegowosc.wynagrodzenie ADD FOREIGN KEY (ID_premii) REFERENCES ksiegowosc.premie(ID_premii);
 
 ALTER TABLE ksiegowosc.godziny ADD FOREIGN KEY (ID_pracownika) REFERENCES ksiegowosc.pracownicy (ID_pracownika);
 ALTER TABLE ksiegowosc.wynagrodzenie ADD FOREIGN KEY (ID_pracownika) REFERENCES ksiegowosc.pracownicy (ID_pracownika);
@@ -25,21 +21,21 @@ ALTER TABLE ksiegowosc.wynagrodzenie ADD FOREIGN KEY (ID_premii) REFERENCES ksie
 
 EXEC sys.sp_addextendedproperty 
 @name=N'Comment', 
-@value=N'Tabela zawiera dane pracowników',
+@value=N'Tabela zawiera dane pracownikÃ³w',
 @level0type=N'SCHEMA', @level0name='ksiegowosc',
 @level1type=N'TABLE', @level1name='pracownicy'
 GO
 
-INSERT INTO ksiegowosc.pracownicy VALUES (1,'Anna','Nowak', 'Kraków', 567989654);
+INSERT INTO ksiegowosc.pracownicy VALUES (1,'Anna','Nowak', 'KrakÃ³w', 567989654);
 INSERT INTO ksiegowosc.pracownicy VALUES (2,'Krzysztof','Kowalski', 'Warszawa' , 534213567);
-INSERT INTO ksiegowosc.pracownicy VALUES(3,'Natalia','Sokó³','Gdañsk',789543234);
+INSERT INTO ksiegowosc.pracownicy VALUES(3,'Natalia','SokÃ³Â³','GdaÃ±sk',789543234);
 INSERT INTO ksiegowosc.pracownicy VALUES(4,'Agnieszka', 'Sowa','Zakopane',789654235);
-INSERT INTO ksiegowosc.pracownicy VALUES(5,'Rafa³','Adamczyk','Wieliczka',567890432);
+INSERT INTO ksiegowosc.pracownicy VALUES(5,'RafaÂ³','Adamczyk','Wieliczka',567890432);
 INSERT INTO ksiegowosc.pracownicy VALUES(6,'Piotr','Kula','Bochnia',765348765);
 INSERT INTO ksiegowosc.pracownicy VALUES(7,'Magdalena','Krawczyk','Gdynia',765234678);
-INSERT INTO ksiegowosc.pracownicy VALUES(8,'Weronika','Zieliñska','Andrychów',654234154);
+INSERT INTO ksiegowosc.pracownicy VALUES(8,'Weronika','ZieliÃ±ska','AndrychÃ³w',654234154);
 INSERT INTO ksiegowosc.pracownicy VALUES(9,'Beata','Drabek','Lublin',768983236);
-INSERT INTO ksiegowosc.pracownicy VALUES(10,'Józef','Kowalczyk','Opole',765287598);
+INSERT INTO ksiegowosc.pracownicy VALUES(10,'JÃ³zef','Kowalczyk','Opole',765287598);
 
 
 INSERT INTO ksiegowosc.godziny VALUES(1,'2021-02-01',161,2);
@@ -56,26 +52,26 @@ INSERT INTO ksiegowosc.godziny VALUES(10,'2021-03-05',160,8);
 
 INSERT INTO ksiegowosc.pensje VALUES (1,'prezes', 10000);
 INSERT INTO ksiegowosc.pensje VALUES (2,'dyrektor', 7000);
-INSERT INTO ksiegowosc.pensje VALUES (3,'zastêpca dyrektora', 6000);
-INSERT INTO ksiegowosc.pensje VALUES (4,'menad¿er',6000);
-INSERT INTO ksiegowosc.pensje VALUES (5,'menad¿er',6000);
-INSERT INTO ksiegowosc.pensje VALUES (6,'m³odszy ksiêgowy',5000);
+INSERT INTO ksiegowosc.pensje VALUES (3,'zastÃªpca dyrektora', 6000);
+INSERT INTO ksiegowosc.pensje VALUES (4,'menadÂ¿er',6000);
+INSERT INTO ksiegowosc.pensje VALUES (5,'menadÂ¿er',6000);
+INSERT INTO ksiegowosc.pensje VALUES (6,'mÂ³odszy ksiÃªgowy',5000);
 INSERT INTO ksiegowosc.pensje VALUES (7, 'sekretarka',2800);
-INSERT INTO ksiegowosc.pensje VALUES (8,'kierownik zespo³u',8000);
+INSERT INTO ksiegowosc.pensje VALUES (8,'kierownik zespoÂ³u',8000);
 INSERT INTO ksiegowosc.pensje VALUES (9,'informatyk',7500);
 INSERT INTO ksiegowosc.pensje VALUES (10,'informatyk',7000);
 
 
-INSERT INTO ksiegowosc.premie VALUES(1,'œwi¹teczna',500);
+INSERT INTO ksiegowosc.premie VALUES(1,'ÂœwiÂ¹teczna',500);
 INSERT INTO ksiegowosc.premie VALUES(2,'nadgodziny',700);
 INSERT INTO ksiegowosc.premie VALUES(3,'jubileusz',2000);
 INSERT INTO ksiegowosc.premie VALUES(4,'projektowa',1000);
 INSERT INTO ksiegowosc.premie VALUES(5,'roczna',1000);
 INSERT INTO ksiegowosc.premie VALUES(6,'bezwypadkowa',500);
-INSERT INTO ksiegowosc.premie VALUES(7,'okolicznoœciowa',500);
+INSERT INTO ksiegowosc.premie VALUES(7,'okolicznoÂœciowa',500);
 INSERT INTO ksiegowosc.premie VALUES(8,'urodzinowa',600);
 INSERT INTO ksiegowosc.premie VALUES(9,'kwartalna',300);
-INSERT INTO ksiegowosc.premie VALUES(10,'wyniki_sprzeda¿y',500);
+INSERT INTO ksiegowosc.premie VALUES(10,'wyniki_sprzedaÂ¿y',500);
 
 INSERT INTO ksiegowosc.wynagrodzenie VALUES (1,'2021-02-02',2,4,10,NULL);
 INSERT INTO ksiegowosc.wynagrodzenie VALUES (2,'2021-02-04',3,5,1,4);
@@ -102,7 +98,7 @@ select ID_pracownika, kwota, ID_premii from ksiegowosc.wynagrodzenie, ksiegowosc
 
 --d
 
-select imie, nazwisko from ksiegowosc.pracownicy where imie like 'j%';
+select imie, nazwisko from ksiegowosc.pracownicy where imie like 'J%';
 
 --e
 select imie, nazwisko from ksiegowosc.pracownicy where nazwisko like '%n%' and imie like '%a';

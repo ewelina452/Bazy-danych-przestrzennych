@@ -1,0 +1,67 @@
+Create extension postgis;
+
+select*from popp union select * from rivers
+
+--4 
+select count(popp.f_codedesc) from popp, majrivers where popp.f_codedesc='Building' and ST_Distance(popp.geom, majrivers.geom)<1000;
+
+create table tableB(name varchar(20));
+insert into tableB  select popp.f_codedesc from popp,majrivers where popp.f_codedesc ='Building' and ST_Distance(popp.geom,majrivers.geom)<1000;
+
+select*from tableB
+
+--5a
+
+SELECT  name, geom, elev INTO airportsNew FROM airports;
+
+select  name, ST_Y(geom) as x_wschod from airportsNew order by x_wschod desc limit 1;
+select  name, ST_Y(geom) as x_zachod from airportsNew order by x_zachod asc limit 1;
+
+--5b
+
+select name, ST_AsText(geom) from airportsNew where name ='NIKOLSKI AS' union 
+select name, ST_AsText(geom) from airportsNew where name ='NOATAK';
+
+insert into airportsNew
+values ('airportB',ST_Centroid(ST_GeomFromText('LINESTRING(-3257915.42438495 1433525.79887208, -1258616.90434692 6502586.8303472 )',0)),000000);
+
+select*from airportsNew;
+
+delete from airportsNew where name='airportB';
+select name, geom from airportsNew where name='airportB' union  select name, geom from airportsNew where name='NOATAK'
+union select name,geom from airportsNew where name ='NIKOLSKI AS';
+
+--6
+
+select ST_Area( ST_buffer((select ST_ShortestLine(lakes.geom, airports.geom) from lakes, airports
+where airports.name='AMBLER' and lakes.names='Iliamna Lake'),1000)) as pole;
+
+ select ST_buffer((select ST_ShortestLine(lakes.geom, airports.geom) from lakes, airports
+where airports.name='AMBLER' and lakes.names='Iliamna Lake'),1000);
+
+
+select*from lakes;
+select*from airports;
+
+--7
+select*from trees;
+select*from tundra;
+select*from swamp;
+
+
+select vegdesc,sum(ST_Area(trees.geom)) as area  from trees, tundra, swamp 
+where ST_Contains(trees.geom,tundra.geom)=true or ST_Contains(trees.geom,swamp.geom)=true 
+group by vegdesc; 
+
+
+
+
+
+
+
+
+
+
+
+
+

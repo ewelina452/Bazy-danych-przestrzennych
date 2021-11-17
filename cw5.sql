@@ -30,8 +30,9 @@ from obiekty obiekt3,obiekty obiekt4 where obiekt3.name = 'obiekt3' and obiekt4.
 --zad3 Zamień obiekt4 na poligon. 
 --Jaki warunek musi być spełniony, aby można było wykonać to zadanie? Zapewnij te warunki.
 
-SELECT ST_MakePolygon(ST_LineMerge(ST_CollectionExtract(ST_Collect(obiekty.geometry, 'LINESTRING(20.5 19.5 , 20 20)'), 2)))
-FROM obiekty WHERE name = 'obiekt4';
+Update obiekty 
+set geometry = ST_GeomFromText('POLYGON((20 20, 25 25, 27 24, 25 22, 26 21, 22 19, 20.5 19.5, 20 20))',0) 
+where name = 'obiekt4';
 
 --zad4 W tabeli obiekty, jako obiekt7 zapisz obiekt złożony z obiektu 3 i obiektu 4.
 

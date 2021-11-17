@@ -21,24 +21,33 @@ insert into obiekty (id, geometry, name) values (6,ST_GeomFromText('GEOMETRYCOLL
 
 SELECT id, ST_CurveToLine(obiekty.geometry), name FROM obiekty;
 
---zad2
+--zad2 Wyznacz pole powierzchni bufora o wielkości 5 jednostek,
+--który został utworzony wokół najkrótszej linii łączącej obiekt 3 i 4.
+
 select ST_Area(ST_buffer(ST_ShortestLine(obiekt3.geometry,obiekt4.geometry),5))
 from obiekty obiekt3,obiekty obiekt4 where obiekt3.name = 'obiekt3' and obiekt4.name = 'obiekt4';
 
---zad3
-Update obiekty 
-set geometry = ST_GeomFromText('POLYGON((20 20, 25 25, 27 24, 25 22, 26 21, 22 19, 20.5 19.5, 20 20))',0) 
-where name = 'obiekt4';
+--zad3 Zamień obiekt4 na poligon. 
+--Jaki warunek musi być spełniony, aby można było wykonać to zadanie? Zapewnij te warunki.
 
---zad4
+SELECT ST_MakePolygon(ST_LineMerge(ST_CollectionExtract(ST_Collect(obiekty.geometry, 'LINESTRING(20.5 19.5 , 20 20)'), 2)))
+FROM obiekty WHERE name = 'obiekt4';
+
+--zad4 W tabeli obiekty, jako obiekt7 zapisz obiekt złożony z obiektu 3 i obiektu 4.
 
 insert into obiekty (id, geometry, name) 
 values (7,(select ST_Collect(obiekt3.geometry, obiekt4.geometry) from obiekty obiekt3, obiekty obiekt4 
-		   where obiekt3.name = 'obiekt3' and obiekt4.name = 'obiekt4'),'obiekt7');
+where obiekt3.name = 'obiekt3' and obiekt4.name = 'obiekt4'),'obiekt7');
+		   
+SELECT id, ST_CurveToLine(obiekty.geometry), name FROM obiekty;
 
---zad5
+--zad5 Wyznacz pole powierzchni wszystkich buforów o wielkości 5 jednostek,
+--które zostały utworzone wokół obiektów nie zawierających łuków.
+
 select name, ST_Area(ST_buffer(obiekty.geometry,5)) from obiekty where ST_HasArc(obiekty.geometry) = false;
 
 
 select sum(ST_Area(ST_buffer(obiekty.geometry,5))) from obiekty where ST_HasArc(obiekty.geometry) = false;
+
+
 
